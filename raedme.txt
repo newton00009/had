@@ -1,0 +1,497 @@
+Xylophone
+import 'package:flutter/material.dart';
+import 'package:audioplayers/src/audio_cache.dart';
+void main() {
+runApp(MaterialApp(
+home:Scaffold(
+appBar: AppBar(title: Text('XYLOPHONE'),centerTitle: true,),
+body:XyloPage(),
+), ));}
+class XyloPage extends StatefulWidget {
+const XyloPage({Key? key}) : super(key: key);
+@override
+_XyloPageState createState() => _XyloPageState();
+}
+class _XyloPageState extends State<XyloPage> {
+void playSound(int noteNumber) {
+final player = AudioCache();
+player.play("note$noteNumber.wav");
+}
+@override
+Widget build(BuildContext context) {
+return Column(
+crossAxisAlignment: CrossAxisAlignment.stretch,
+children: [
+Expanded(child: TextButton(
+style: TextButton.styleFrom(
+backgroundColor: Colors.indigo
+),
+onPressed: () {
+playSound(1);
+},
+child: Text('First'),
+),),
+Expanded(child: TextButton(
+style: TextButton.styleFrom(
+backgroundColor: Colors.cyanAccent
+),
+onPressed: () {
+playSound(2);
+}, child: Text('Second'),
+),),
+Expanded(child: TextButton(
+style: TextButton.styleFrom(
+backgroundColor: Colors.green
+),
+onPressed: () {
+playSound(3);
+}, child: Text('Third'),
+),),
+Expanded(child: TextButton(
+style: TextButton.styleFrom(
+backgroundColor: Colors.orange
+),
+onPressed: () {
+playSound(4);
+}, child: Text('Fourth'),
+),),
+Expanded(child: TextButton(
+style: TextButton.styleFrom(
+backgroundColor: Colors.purple
+),
+onPressed: () {
+playSound(5);
+}, child: Text('Fifth'),
+),),
+Expanded(child: TextButton(
+style: TextButton.styleFrom(
+backgroundColor: Colors.blue
+),
+onPressed: () {
+playSound(6);
+}, child: Text('Sixth'),
+),),
+Expanded(child: TextButton(
+style: TextButton.styleFrom(
+backgroundColor: Colors.red
+),
+onPressed: () {
+playSound(7);
+}, child: Text('Seventh'),
+),),
+], ); }}
+
+Dice
+import 'dart:math';
+import 'package:flutter/material.dart';
+void main() {
+runApp(MaterialApp(
+home: Scaffold(
+appBar: AppBar(title: Text('DICEEE'), centerTitle: true,),
+body: DicePage(),
+), ));}
+class DicePage extends StatefulWidget {
+const DicePage({Key? key}) : super(key: key);
+@override
+_DicePageState createState() => _DicePageState();
+}
+class _DicePageState extends State<DicePage>{
+int left = 1;
+int right = 2;
+void changeFace() {
+setState(() {
+left = Random().nextInt(6) + 1;
+right = Random().nextInt(6) + 1;
+}); }
+@override
+Widget build(BuildContext context) {
+// TODO: implement build
+return Center(
+child: Container(
+child: Row(
+children: [
+Expanded(
+flex: 1,
+child: TextButton(
+style: TextButton.styleFrom(
+backgroundColor: Colors.red,
+),
+child: Image.asset('images/dice$left.png'),
+onPressed: () {
+changeFace();
+},
+),
+),
+Expanded(
+flex: 1,
+child: TextButton(
+style: TextButton.styleFrom(
+backgroundColor: Colors.red,
+),
+child: Image.asset('images/dice$right.png'),
+onPressed: () {
+changeFace();
+}, ), ), ], ), ), ); }}
+
+Scaffold & Safe Area
+1.usage of scaffold
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+void main() {
+runApp(MaterialApp(
+home: Scaffold(
+appBar: AppBar(
+title: Text("Scaffold usage"),
+),
+body: Center(
+child: Text('Scaffold Usage',
+style: TextStyle(
+fontSize: 40.0,
+fontStyle: FontStyle.italic,
+fontWeight: FontWeight.bold,
+),),),),));}
+—-------------------------------------------------------
+2.Scaffold safe area usage
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+void main() {
+runApp(MaterialApp(
+home: Scaffold(
+appBar: AppBar(
+title: Text("Scaffold Safe Area usage"),
+),
+body: Container(
+child: SafeArea(
+child: Center(
+child: Text(
+'This is using Scaffold Safe Area',
+style: TextStyle(
+fontSize: 35.0,
+fontWeight: FontWeight.bold,
+),),),),),),));}
+—-----------------------------------------------
+3. Without safe area main.dart
+import 'package:flutter/material.dart';
+void main() {
+runApp( MaterialApp(
+home:Text(
+'without safearea-madhuri',
+textAlign:TextAlign.center,
+style:TextStyle(
+fontSize: 40,
+fontWeight: FontWeight.w800,
+color: Colors.deepOrangeAccent,
+),),));}
+—---------------------------------------------
+4. Withsafearea
+import 'package:flutter/material.dart';
+void main() {
+runApp( MaterialApp(
+home:SafeArea(
+child:Text(
+'with safearea-madhuri',
+textAlign:TextAlign.center,
+style:TextStyle(
+fontSize: 40,
+fontWeight: FontWeight.w800,
+color: Colors.deepOrangeAccent,
+),),),));}
+—----------------------------------------------
+
+Quizimport 'package:flutter/material.dart';
+void main() {
+runApp(MaterialApp(
+home:SafeArea(
+child: Scaffold(
+body:QuizPage(),
+),),));}
+class Question {
+final String questionText;
+final bool answer; // Answer
+Question({required this.questionText, required this.answer});
+}
+class Questions {
+List<Question> questionBank = [
+Question(questionText: " sunday is the best day of the week", answer: true),
+Question(questionText: "college is boring ", answer: true),
+Question(questionText: "do i want chocolate", answer: false),
+Question(questionText: "my fav color is blue ", answer: true),
+Question(questionText: "dogs>>>>cats", answer: false),
+Question(questionText: "orange lays>>>>blue lays", answer: true),
+Question(questionText: "sunset>sunrise", answer: true),
+];}
+class QuizPage extends StatefulWidget {
+const QuizPage({Key? key}) : super(key: key);
+@override
+_QuizPageState createState() => _QuizPageState();
+}
+class _QuizPageState extends State<QuizPage> {
+int questionNumber=0;
+int currentScore=0;
+Questions questions=Questions();
+void updateQuestionNumber(){
+setState(() {
+questionNumber=questionNumber+1;
+print('$questionNumber');
+});}
+void updateCurrentScore(bool choice,int question_number){
+if(questions.questionBank.length==question_number){
+print("end of question");
+}else{
+if(questions.questionBank[question_number].answer==choice){
+setState(() {
+currentScore++;});}}}
+bool checkquestionNumber(int questionNumber){
+return questionNumber<questions.questionBank.length?true:false;
+}
+@override
+Widget build(BuildContext context) {
+return Container(
+child: Column(
+children: [
+Center(
+child: Text(
+checkquestionNumber(questionNumber)?
+questions.questionBank[questionNumber].questionText.toString() : " End",
+style: TextStyle(fontSize: 40.0),
+),),
+SizedBox(height: 20.0),
+if (checkquestionNumber(questionNumber))
+ElevatedButton(
+onPressed: () {
+setState(() {
+if (questionNumber == questions.questionBank.length) {
+print("End of questions");
+} else {
+updateCurrentScore(true, questionNumber);
+updateQuestionNumber();
+}});},
+child: Text('True'),
+),
+SizedBox(width: 20.0),
+if (checkquestionNumber(questionNumber))
+ElevatedButton(
+onPressed: () {
+setState(() {
+if (questionNumber == questions.questionBank.length) {
+print("End of questions");
+} else {
+updateCurrentScore(false, questionNumber);
+updateQuestionNumber();
+}});},
+child: Text('False'),
+),
+SizedBox(
+height: 100.0,
+),
+SizedBox(
+height: 50.0,
+),
+Padding(
+padding: const EdgeInsets.all(30.0),
+child: Center(
+child: Text(
+"Current Score is:",
+style: TextStyle(fontSize: 30),
+),),),
+Padding(
+padding: const EdgeInsets.all(30.0),
+child: Center(
+child: Text(
+'${currentScore}',
+style: TextStyle(fontSize: 30),),),),]),);}}
+
+--------------------------------------------
+
+Single child & multi child
+
+import 'package:flutter/material.dart';
+void main() {
+  runApp(MaterialApp(
+    home: Scaffold(
+      body: RowApp(),
+    ),
+  ));
+}
+class RowApp extends StatefulWidget {
+  const RowApp({Key? key}) : super(key: key);
+  @override
+  _RowAppState createState() => _RowAppState();
+}
+class _RowAppState extends State<RowApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child:SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:[
+              Container(
+                height: 100,
+                width: 100,
+                color: Colors.green, // change the color to red and green for other two
+                child: Center(
+                  child: Text(
+                      'First Child'
+                  ),
+                ),
+              ),
+              Container(
+                height: 100,
+                width: 100,
+                color: Colors.red, // change the color to red and green for other two
+                child: Center(
+                  child: Text(
+                      'Second Child'
+                  ),
+                ),
+              ),
+              Container(
+                height: 100,
+                width: 100,
+                color: Colors.yellow, // change the color to red and green for other two
+                child: Center(
+                  child: Text(
+                      'Third Child'
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ) );
+  }
+}
+
+
+import 'package:flutter/material.dart';
+void main() {
+  runApp(MaterialApp(
+    home: Scaffold(
+      body: RowApp(),
+    ),
+  ));
+}
+class RowApp extends StatefulWidget {
+  const RowApp({Key? key}) : super(key: key);
+  @override
+  _RowAppState createState() => _RowAppState();
+}
+class _RowAppState extends State<RowApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child:SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:[
+              Container(
+                height: 100,
+                width: 100,
+                color: Colors.green, // change the color to red and green for other two
+                child: Center(
+                  child: Text(
+                      'First Child'
+                  ),
+                ),
+              ),
+              Container(
+                height: 100,
+                width: 100,
+                color: Colors.red, // change the color to red and green for other two
+                child: Center(
+                  child: Text(
+                      'Second Child'
+                  ),
+                ),
+              ),
+              Container(
+                height: 100,
+                width: 100,
+                color: Colors.yellow, // change the color to red and green for other two
+                child: Center(
+                  child: Text(
+                      'Third Child'
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
+
+import 'package:flutter/material.dart';
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home:SafeArea(
+      child:ColumnApp(),
+    ),
+  ));
+}
+class ColumnApp extends StatefulWidget {
+  const ColumnApp({Key? key}) : super(key: key);
+  @override
+  _ColumnAppState createState() => _ColumnAppState();
+}
+class _ColumnAppState extends State<ColumnApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body:Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children:[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children:[Container(
+              height: 100,
+              width: 100,
+              color: Colors.red,
+              child: Center(
+                child: Text(
+                    'First Child'
+                ),
+              ),
+            ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Container(
+              height: 100,
+              width: 100,
+              color: Colors.blue,
+              child: Center(
+                child: Text(
+                    'Second Child'
+                ),
+              ),
+            ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children:[Container(
+              height: 100,
+              width: 100,
+              color: Colors.green,
+              child: Center(
+                child: Text(
+                    'Third Child'
+                ),
+              ),
+            ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
